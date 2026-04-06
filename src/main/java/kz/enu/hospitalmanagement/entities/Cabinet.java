@@ -1,4 +1,4 @@
-﻿package kz.enu.hospitalmanagement.entities;
+package kz.enu.hospitalmanagement.entities;
 
 public class Cabinet {
     private Long id;

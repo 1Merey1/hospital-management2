@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пайдаланушы қосу - Админ панелі</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .navbar {
+            background: #667eea;
+            padding: 1rem 2rem;
+            color: white;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+            width: 100%;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="navbar-brand">🏥 Жаңа пайдаланушы қосу</div>
+</nav>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>➕ Жаңа пайдаланушы қосу</h2>
+        </div>
+
+        <form th:action="@{/admin/create}" th:object="${user}" method="post">
+            <div class="form-group">
+                <label for="username">Логин *</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Құпия сөз *</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="fullName">Толық аты-жөні *</label>
+                <input type="text" id="fullName" name="fullName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="role">Рөл</label>
+                <select id="role" name="role">
+                    <option value="USER">Пайдаланушы</option>
+                    <option value="ADMIN">Администратор</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Сақтау</button>
+        </form>
+
+        <a href="/admin/users" class="back-link">← Пайдаланушылар тізіміне оралу</a>
+    </div>
+</div>
+</body>
+</html>

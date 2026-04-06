@@ -1,0 +1,26 @@
+<!-- profile.html-ге пароль өзгерту бөлімін қосыңыз -->
+<div class="card" style="margin-top: 30px;">
+    <div class="card-header">
+        <h2>🔐 Құпия сөзді өзгерту</h2>
+    </div>
+    <div class="card-body">
+        <form method="post" th:action="@{/profile/change-password}">
+            <div class="form-group">
+                <label for="currentPassword">Ағымдағы құпия сөз</label>
+                <input type="password" id="currentPassword" name="currentPassword" required>
+            </div>
+
+            <div class="form-group">
+                <label for="newPassword">Жаңа құпия сөз</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Жаңа құпия сөзді растау</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Құпия сөзді өзгерту</button>
+        </form>
+    </div>
+</div>

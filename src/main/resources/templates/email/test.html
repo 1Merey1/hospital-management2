@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Тестілеу - Hospital Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📧 Email тестілеу</h1>
+
+    <div class="info">
+        <strong>📌 Ескерту:</strong> Email жіберу үшін алдымен application.properties-те SMTP баптауларын дұрыс қойыңыз.
+        Gmail үшін қолданба құпия сөзін (App Password) пайдаланыңыз.
+    </div>
+
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+    <form method="post" th:action="@{/email/send-test}">
+        <div class="form-group">
+            <label for="to">Алушы Email *</label>
+            <input type="email" id="to" name="to" required placeholder="example@mail.com">
+        </div>
+
+        <div class="form-group">
+            <label for="subject">Тақырып *</label>
+            <input type="text" id="subject" name="subject" required placeholder="Хат тақырыбы">
+        </div>
+
+        <div class="form-group">
+            <label for="message">Хабарлама *</label>
+            <textarea id="message" name="message" required placeholder="Хабарлама мәтіні"></textarea>
+        </div>
+
+        <button type="submit">📧 Email жіберу</button>
+    </form>
+
+    <a href="/dashboard" class="back-link">← Басты бетке оралу</a>
+</div>
+</body>
+</html>

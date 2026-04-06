@@ -1,4 +1,4 @@
-﻿package kz.enu.hospitalmanagement.controller;
+package kz.enu.hospitalmanagement.controller;
 
 import kz.enu.hospitalmanagement.entities.Cabinet;
 import org.springframework.web.bind.annotation.*;
