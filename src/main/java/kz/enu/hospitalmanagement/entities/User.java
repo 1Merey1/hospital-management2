@@ -1,6 +1,7 @@
 package kz.enu.hospitalmanagement.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.util.Objects;
 
 @Entity
@@ -11,15 +12,28 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // БИЗНЕС ЕРЕЖЕ: Логин 3-50 символ, тек әріптер, сандар және _
+    @NotBlank(message = "Логин бос болмауы керек")
+    @Size(min = 3, max = 50, message = "Логин 3-50 символ аралығында болуы керек")
+    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Логин тек әріптер, сандар және _ символынан тұруы керек")
     @Column(unique = true, nullable = false)
     private String username;
 
+    // БИЗНЕС ЕРЕЖЕ: Пароль кемінде 6 символ
+    @NotBlank(message = "Құпия сөз бос болмауы керек")
+    @Size(min = 6, message = "Құпия сөз кемінде 6 символ болуы керек")
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    // БИЗНЕС ЕРЕЖЕ: Email дұрыс форматта
+    @NotBlank(message = "Email бос болмауы керек")
+    @Email(message = "Email дұрыс форматта болуы керек (мысалы: user@mail.com)")
+    @Column(unique = true, nullable = false)
     private String email;
 
+    // БИЗНЕС ЕРЕЖЕ: Аты-жөні 2-100 символ
+    @NotBlank(message = "Аты-жөні бос болмауы керек")
+    @Size(min = 2, max = 100, message = "Аты-жөні 2-100 символ аралығында болуы керек")
     @Column(nullable = false)
     private String fullName;
 
@@ -28,11 +42,13 @@ public class User {
 
     private boolean enabled = true;
 
-    // 1. Пустой конструктор (аналог @NoArgsConstructor) - обязателен для JPA
+    // ============ КОНСТРУКТОРЛАР ============
+
+    // 1. Пустой конструктор (обязателен для JPA)
     public User() {
     }
 
-    // 2. Полный конструктор (аналог @AllArgsConstructor)
+    // 2. Полный конструктор
     public User(Long id, String username, String password, String email, String fullName, String role, boolean enabled) {
         this.id = id;
         this.username = username;
@@ -43,7 +59,18 @@ public class User {
         this.enabled = enabled;
     }
 
-    // 3. Геттеры и Сеттеры (аналог @Data)
+    // 3. Конструктор без ID (для создания новых пользователей)
+    public User(String username, String password, String email, String fullName) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.fullName = fullName;
+        this.role = "USER";
+        this.enabled = true;
+    }
+
+    // ============ ГЕТТЕРЫ И СЕТТЕРЫ ============
+
     public Long getId() {
         return id;
     }
@@ -100,7 +127,43 @@ public class User {
         this.enabled = enabled;
     }
 
-    // 4. Методы equals и hashCode (важны для работы Hibernate)
+    // ============ БИЗНЕС ЕРЕЖЕЛЕРІН ТЕКСЕРУ МЕТОДТАРЫ ============
+
+    /**
+     * Бизнес ереже: Пайдаланушының админ екенін тексеру
+     */
+    public boolean isAdmin() {
+        return "ADMIN".equalsIgnoreCase(this.role);
+    }
+
+    /**
+     * Бизнес ереже: Пайдаланушының активті екенін тексеру
+     */
+    public boolean isActive() {
+        return this.enabled;
+    }
+
+    /**
+     * Бизнес ереже: Пайдаланушының рөлін өзгертуге рұқсат бар ма
+     */
+    public boolean canChangeRole(User currentUser) {
+        // Тек админ ғана рөлді өзгерте алады
+        return currentUser != null && currentUser.isAdmin();
+    }
+
+    /**
+     * Бизнес ереже: Пайдаланушы өзін-өзі жоя ала ма
+     */
+    public boolean canDeleteSelf(User currentUser) {
+        // Админ өзін-өзі жоя алмайды
+        if (this.isAdmin() && this.equals(currentUser)) {
+            return false;
+        }
+        return true;
+    }
+
+    // ============ EQUALS, HASHCODE, TOSTRING ============
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -120,7 +183,6 @@ public class User {
         return Objects.hash(id, username, password, email, fullName, role, enabled);
     }
 
-    // 5. Метод toString
     @Override
     public String toString() {
         return "User{" +

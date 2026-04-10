@@ -24,7 +24,9 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
-
+    /**
+     * Қарапайым мәтіндік email жіберу
+     */
     public void sendSimpleEmail(String to, String subject, String text) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
@@ -41,6 +43,9 @@ public class EmailService {
         }
     }
 
+    /**
+     * HTML форматында email жіберу
+     */
     public void sendHtmlEmail(String to, String subject, String htmlContent) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
@@ -59,6 +64,9 @@ public class EmailService {
         }
     }
 
+    /**
+     * Thymeleaf шаблонымен email жіберу
+     */
     public void sendTemplateEmail(String to, String subject, String templateName, Context context) {
         try {
             String htmlContent = templateEngine.process(templateName, context);
@@ -69,7 +77,11 @@ public class EmailService {
         }
     }
 
+    // ============ АРНАЙЫ ХАБАРЛАМАЛАР ============
 
+    /**
+     * Тіркелу сәтті өткенде құттықтау хаты
+     */
     public void sendWelcomeEmail(String to, String username) {
         String subject = "🏥 Hospital Management жүйесіне қош келдіңіз!";
         String text = String.format(
@@ -84,6 +96,9 @@ public class EmailService {
         sendSimpleEmail(to, subject, text);
     }
 
+    /**
+     * Пароль өзгертілгенде хабарлама
+     */
     public void sendPasswordChangeEmail(String to, String username) {
         String subject = "🔐 Пароль өзгертілді - Hospital Management";
         String text = String.format(
@@ -96,6 +111,9 @@ public class EmailService {
         sendSimpleEmail(to, subject, text);
     }
 
+    /**
+     * Жаңа дәрігер тағайындалғанда хабарлама
+     */
     public void sendDoctorAssignedEmail(String to, String patientName, String doctorName) {
         String subject = "👨‍⚕️ Дәрігер тағайындалды - Hospital Management";
         String text = String.format(
@@ -108,6 +126,9 @@ public class EmailService {
         sendSimpleEmail(to, subject, text);
     }
 
+    /**
+     * Емдеу кестесі туралы хабарлама
+     */
     public void sendAppointmentEmail(String to, String patientName, String doctorName, String dateTime) {
         String subject = "📅 Қабылдау кестесі - Hospital Management";
         String text = String.format(

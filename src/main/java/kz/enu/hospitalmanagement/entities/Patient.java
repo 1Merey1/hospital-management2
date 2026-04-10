@@ -1,14 +1,28 @@
-package kz.enu.hospitalmanagement.entities;
+package kz.enu.hospitalmanagement.entities;  // ⚠️ ПАКЕТТІ entity деп ӨЗГЕРТІҢІЗ
 
+import jakarta.persistence.*;  // ⚠️ БҰЛ ИМПОРТТЫ ҚОСЫҢЫЗ
+
+@Entity  // ⚠️ БҰЛ АННОТАЦИЯНЫ ҚОСЫҢЫЗ
+@Table(name = "patients")  // ⚠️ БҰЛ АННОТАЦИЯНЫ ҚОСЫҢЫЗ
 public class Patient {
+
+    @Id  // ⚠️ БҰЛ АННОТАЦИЯНЫ ҚОСЫҢЫЗ
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // ⚠️ БҰЛ АННОТАЦИЯНЫ ҚОСЫҢЫЗ
     private Long id;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
     private int age;
     private String diagnosis;
+
+    @Column(name = "phone_number")
     private String phoneNumber;
 
-    // Какой доктор лечит пациента
+    @Column(name = "doctor_id")
     private Long doctorId;
 
     public Patient() {
